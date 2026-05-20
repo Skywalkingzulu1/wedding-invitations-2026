@@ -39,20 +39,21 @@
         /* Navigation */
         .floating-nav {
             position: fixed; top: 2rem; left: 50%; transform: translateX(-50%);
-            z-index: 3000; background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px); padding: 0.7rem 1.5rem;
-            border-radius: 50px; border: 1px solid rgba(197, 160, 89, 0.2);
+            z-index: 3000; background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px); padding: 0.7rem 1.2rem;
+            border-radius: 50px; border: 1px solid rgba(0,0,0,0.05);
             box-shadow: 0 5px 20px rgba(0,0,0,0.03);
             opacity: 0; visibility: hidden; transition: opacity 1s, visibility 1s;
+            width: fit-content; white-space: nowrap;
         }
 
         .envelope-overlay.is-hidden + .floating-nav { opacity: 1; visibility: visible; }
 
-        .nav-links { display: flex; gap: 1rem; align-items: center; }
+        .nav-links { display: flex; gap: 0.5rem; align-items: center; }
         .nav-btn {
             background: none; border: none; color: var(--ink);
-            font-family: var(--label); font-size: 0.55rem;
-            text-transform: uppercase; letter-spacing: 0.2em;
+            font-family: var(--label); font-size: 0.5rem;
+            text-transform: uppercase; letter-spacing: 0.15em;
             cursor: pointer; transition: color 0.3s; padding: 0.4rem;
         }
         .nav-btn:hover { color: var(--gold); }
@@ -151,38 +152,50 @@
         .envelope-wrapper.is-open .heart-seal { opacity: 0; pointer-events: none; }
 
         /* Content Modules */
-        .title-xs { font-family: var(--label); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5em; color: var(--gold); margin-bottom: 2rem; }
-        .display-lg { font-family: var(--display); font-size: clamp(3rem, 8vw, 6rem); font-weight: 400; margin-bottom: 1rem; line-height: 1; }
-        .display-md { font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 2rem; }
-        .body-text { font-family: var(--serif); font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.6; color: rgba(0,0,0,0.8); }
+        .title-xs { font-family: var(--label); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5em; color: var(--gold); margin-bottom: 1.5rem; }
+        .display-lg { font-family: var(--display); font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 400; margin-bottom: 0.5rem; line-height: 1.1; }
+        .display-md { font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1.5rem; }
+        .body-text { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.6; color: rgba(0,0,0,0.8); }
         .italic { font-style: italic; }
         
-        .ornament { width: 40px; height: 1px; background: var(--gold); margin: 2rem auto; opacity: 0.4; }
+        .ornament { width: 40px; height: 1px; background: var(--gold); margin: 1.5rem auto; opacity: 0.4; }
 
         .btn-elegant {
-            display: inline-block; padding: 1.2rem 3.5rem; background: var(--ink);
+            display: inline-block; padding: 1rem 3rem; background: var(--ink);
             color: white; text-decoration: none; font-family: var(--label);
-            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3em;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); margin-top: 3rem;
+            font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.3em;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); margin-top: 2rem;
             border: 1px solid var(--ink); cursor: pointer;
         }
         .btn-elegant:hover { background: transparent; color: var(--ink); }
 
+        /* Countdown Grid */
+        .countdown-grid {
+            display: flex; gap: 1.5rem; justify-content: center; align-items: center; margin: 2rem 0;
+        }
+        .countdown-item { display: flex; flex-direction: column; align-items: center; }
+        .countdown-value { font-family: var(--display); font-size: 2rem; line-height: 1; }
+        .countdown-label { font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.5; margin-top: 0.3rem; }
+        .countdown-sep { opacity: 0.1; font-size: 1.5rem; }
+
         /* RSVP Form */
-        .rsvp-card { background: white; padding: 4rem; max-width: 600px; margin: 0 auto; border: 1px solid rgba(0,0,0,0.03); }
-        .input-group { margin-bottom: 2.5rem; }
+        .rsvp-card { background: white; padding: 2.5rem; max-width: 600px; margin: 0 auto; border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+        .input-group { margin-bottom: 1.5rem; text-align: left; }
         .input-elegant {
             width: 100%; border: none; border-bottom: 1px solid rgba(0,0,0,0.1);
-            padding: 1rem 0; font-family: var(--serif); font-size: 1.4rem;
+            padding: 0.8rem 0; font-family: var(--serif); font-size: 1.2rem;
             outline: none; background: transparent; text-align: center;
             transition: border-color 0.3s;
         }
         .input-elegant:focus { border-bottom-color: var(--gold); }
 
-        .payment-box { text-align: left; display: inline-block; padding: 3rem; background: var(--sand); margin-top: 2rem; width: 100%; max-width: 500px; }
-        .payment-row { margin-bottom: 1.5rem; }
-        .payment-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.5; display: block; margin-bottom: 0.2rem; }
-        .payment-value { font-family: var(--serif); font-size: 1.3rem; }
+        .radio-set { display: flex; gap: 2rem; justify-content: center; margin: 1.5rem 0; }
+        .radio-label { cursor: pointer; font-size: 0.6rem; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; font-family: var(--label); text-transform: uppercase; }
+
+        .payment-box { text-align: left; display: inline-block; padding: 2rem; background: var(--sand); margin-top: 1rem; width: 100%; max-width: 500px; }
+        .payment-row { margin-bottom: 1rem; }
+        .payment-label { font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.5; display: block; margin-bottom: 0.1rem; }
+        .payment-value { font-family: var(--serif); font-size: 1.2rem; }
 
         /* Animations */
         @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
@@ -191,8 +204,12 @@
         @media (max-width: 768px) {
             .page { padding: 4rem 1.5rem; }
             .bride, .groom { display: none; }
-            .nav-links { gap: 0.5rem; }
-            .nav-btn { font-size: 0.45rem; padding: 0.2rem; }
+            .nav-links { gap: 0.2rem; }
+            .nav-btn { font-size: 0.4rem; padding: 0.2rem; letter-spacing: 0.05em; }
+            .floating-nav { top: 1rem; padding: 0.5rem 0.8rem; }
+            .countdown-value { font-size: 1.5rem; }
+            .display-lg { font-size: 3rem; }
+            .rsvp-card { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
@@ -205,7 +222,7 @@
                 <div class="front"></div>
                 <div class="letter">
                     <div class="letter-inner">
-                        <div style="font-family: var(--display); font-size: 2.5rem; color: var(--gold);" id="days-count">--</div>
+                        <div style="font-family: var(--display); font-size: 2.5rem; color: var(--gold);" id="days-count-splash">--</div>
                         <div style="font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.5;">Days to the Big Day</div>
                         <div class="ornament" style="margin: 0.5rem 0;"></div>
                         <div style="font-size: 0.8rem; letter-spacing: 0.1em; opacity: 0.7;">Andile & Keabetswe</div>
@@ -224,6 +241,7 @@
             <button class="nav-btn" onclick="scrollToPage(1)">Welcome</button>
             <button class="nav-btn" onclick="scrollToPage(2)">Story</button>
             <button class="nav-btn" onclick="scrollToPage(3)">Venue</button>
+            <button class="nav-btn" onclick="scrollToPage(4)">Gifts</button>
             <button class="nav-btn" onclick="scrollToPage(6)">RSVP</button>
         </div>
     </nav>
@@ -234,8 +252,17 @@
             <div class="page-content">
                 <div class="title-xs">Save the Date</div>
                 <h1 class="display-lg">21 June 2026</h1>
-                <div style="font-size: 1.1rem; letter-spacing: 0.2em; opacity: 0.4; margin: 2rem 0;">SUNDAY • 09:30 AM</div>
-                <div style="padding: 0.7rem 1.5rem; border: 1px solid rgba(0,0,0,0.05); border-radius: 50px; display: inline-block; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;">Bell and Blossom, Pretoria</div>
+                
+                <div class="countdown-grid" id="main-countdown">
+                    <div class="countdown-item"><span class="countdown-value" id="d-val">00</span><label class="countdown-label">Days</label></div>
+                    <div class="countdown-sep">|</div>
+                    <div class="countdown-item"><span class="countdown-value" id="h-val">00</span><label class="countdown-label">Hours</label></div>
+                    <div class="countdown-sep">|</div>
+                    <div class="countdown-item"><span class="countdown-value" id="m-val">00</span><label class="countdown-label">Mins</label></div>
+                </div>
+
+                <div style="font-size: 0.9rem; letter-spacing: 0.2em; opacity: 0.4; margin-bottom: 2rem;">SUNDAY • 09:30 AM</div>
+                <div style="padding: 0.7rem 1.5rem; border: 1px solid rgba(0,0,0,0.05); border-radius: 50px; display: inline-block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;">Bell and Blossom, Pretoria</div>
             </div>
             <div class="abstract-blur b1"></div>
         </section>
@@ -276,7 +303,7 @@
             <div class="page-content">
                 <div class="title-xs">The Location</div>
                 <h2 class="display-md">Venue & Stay</h2>
-                <p style="margin-bottom: 2rem; font-size: 0.9rem; letter-spacing: 0.1em;">721 KLIPPAN STREET, PRETORIA</p>
+                <p style="margin-bottom: 1.5rem; font-size: 0.8rem; letter-spacing: 0.1em; opacity: 0.6;">721 KLIPPAN STREET, PRETORIA</p>
                 <p class="body-text" style="max-width: 600px; margin: 0 auto;">
                     Discounted luxury accommodation is available on-site for the night of the wedding. Check-out is strictly at 08:00 AM.
                 </p>
@@ -300,7 +327,8 @@
         <section id="payment-page" class="page" style="display:none;">
             <div class="page-content">
                 <div class="title-xs">Transaction Details</div>
-                <h2 class="display-md">Payment Info</h2>
+                <h2 class="display-md" style="margin-bottom: 1rem;">Payment Info</h2>
+                <p class="body-text italic" style="margin-bottom: 2rem; font-size: 1rem;">Please use your name as a reference.</p>
                 <div class="payment-box">
                     <div class="payment-row"><span class="payment-label">Bank</span><span class="payment-value">FNB (First National Bank)</span></div>
                     <div class="payment-row"><span class="payment-label">Account Holder</span><span class="payment-value">Andile Mchunu</span></div>
@@ -314,37 +342,58 @@
         </section>
 
         <!-- 7. RSVP Page -->
-        <section class="page">
+        <section class="page" id="rsvp-section">
             <div class="page-content">
                 <div class="title-xs">RSVP by 24 May 2026</div>
                 <h2 class="display-md">Are you joining us?</h2>
-                <p class="body-text italic" style="margin-bottom: 3rem; font-size: 1.1rem; max-width: 500px; margin: 0 auto 3rem;">
+                <p class="body-text italic" style="margin-bottom: 2rem; font-size: 1rem; max-width: 500px; margin: 0 auto 2rem;">
                     "We understand the RSVP comes with a shortened timeline and ask that you cooperate with us on this venture."
                 </p>
                 <div class="rsvp-card">
                     <form id="rsvp-form">
-                        <div class="input-group"><input type="text" class="input-elegant" id="r-names" value="Kosi Molelekeng" readonly></div>
-                        <div style="display:flex; gap:3rem; justify-content:center; margin-bottom: 3rem;">
-                            <label style="cursor:pointer; font-size:0.7rem; letter-spacing:0.1em; display:flex; align-items:center; gap:0.5rem;"><input type="radio" name="att" value="yes" required> YES, I'LL BE THERE</label>
-                            <label style="cursor:pointer; font-size:0.7rem; letter-spacing:0.1em; display:flex; align-items:center; gap:0.5rem;"><input type="radio" name="att" value="no"> SADLY, NO</label>
+                        <div class="input-group">
+                            <span class="payment-label" style="text-align: center; margin-bottom: 0.5rem;">Guest Name(s)</span>
+                            <input type="text" class="input-elegant" id="r-names" value="Kosi Molelekeng" readonly>
                         </div>
-                        <div class="input-group"><input type="text" class="input-elegant" id="r-diet" placeholder="Any Dietary Requirements?"></div>
-                        <div class="input-group"><input type="text" class="input-elegant" id="r-acc" placeholder="Accommodation for (names)"></div>
-                        <button type="submit" class="btn-elegant" style="width:100%;">Confirm Attendance</button>
+                        
+                        <div class="radio-set">
+                            <label class="radio-label"><input type="radio" name="att" value="yes" required> YES, I'M COMING</label>
+                            <label class="radio-label"><input type="radio" name="att" value="no"> SADLY, NO</label>
+                        </div>
+
+                        <div class="input-group">
+                             <input type="text" class="input-elegant" id="r-diet" placeholder="Any Dietary Requirements?">
+                        </div>
+
+                        <div class="ornament" style="margin: 1.5rem auto;"></div>
+                        
+                        <div class="input-group" style="margin-bottom: 0.5rem;">
+                            <span class="payment-label" style="text-align: center; margin-bottom: 0.5rem;">Do you need accommodation?</span>
+                            <div class="radio-set" style="margin: 0.5rem 0 1.5rem;">
+                                <label class="radio-label"><input type="radio" name="acc-needed" value="yes"> YES</label>
+                                <label class="radio-label"><input type="radio" name="acc-needed" value="no" checked> NO</label>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                             <input type="text" class="input-elegant" id="r-acc-names" placeholder="Confirming booking for (names)">
+                        </div>
+
+                        <button type="submit" class="btn-elegant" style="width:100%;" id="submit-btn">Confirm RSVP</button>
                     </form>
-                    <div id="status" style="margin-top:2rem; font-size:0.7rem; letter-spacing:0.1em; display:none;"></div>
+                    <div id="status" style="margin-top:2rem; font-family: var(--label); font-size:0.7rem; letter-spacing:0.1em; display:none; padding: 1rem; border: 1px solid var(--gold); color: var(--gold);"></div>
                 </div>
             </div>
+            <p style="position:absolute; bottom:1rem; width:100%; text-align:center; font-size:0.5rem; opacity:0.3;">&copy; 2026 Andile & Keabetswe</p>
         </section>
     </main>
 
-    <!-- S3 Browser Client -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1500.0.min.js"></script>
 
     <script>
         const guestName = "Kosi Molelekeng";
         
-        // Filebase Credentials
+        // Filebase Config
         const FILEBASE_CONFIG = {
             accessKeyId: '783194B050E16228919E',
             secretAccessKey: 'JMexyAlQdiuTtUBNixISyLQdAziQIrgV1u8Gy1vy',
@@ -370,31 +419,50 @@
                 }, 1500);
             });
 
-            // 2. Countdown
-            const target = new Date('June 21, 2026 09:30:00').getTime();
-            const tick = () => {
+            // 2. Countdown Timer
+            const targetDate = new Date('June 21, 2026 09:30:00').getTime();
+            const updateTicker = () => {
                 const now = new Date().getTime();
-                const d = Math.floor((target - now) / 86400000);
-                document.getElementById('days-count').innerText = d > 0 ? d : 0;
+                const dist = targetDate - now;
+                if (dist < 0) return;
+                
+                const d = Math.floor(dist / 86400000);
+                const h = Math.floor((dist % 86400000) / 3600000);
+                const m = Math.floor((dist % 3600000) / 60000);
+
+                document.getElementById('days-count-splash').innerText = d;
+                
+                const dEl = document.getElementById('d-val'), hEl = document.getElementById('h-val'), mEl = document.getElementById('m-val');
+                if (dEl) {
+                    dEl.innerText = d.toString().padStart(2, '0');
+                    hEl.innerText = h.toString().padStart(2, '0');
+                    mEl.innerText = m.toString().padStart(2, '0');
+                }
             };
-            tick();
+            setInterval(updateTicker, 1000);
+            updateTicker();
 
             // 3. Navigation
             window.scrollToPage = (idx) => {
                 const pages = document.querySelectorAll('.page');
+                // The RSVP page index might shift if payment is shown, but we use ID for reliability
+                if (idx === 6) {
+                    document.getElementById('rsvp-section').scrollIntoView({ behavior: 'smooth' });
+                    return;
+                }
                 const visible = Array.from(pages).filter(p => p.style.display !== 'none');
                 if (visible[idx]) visible[idx].scrollIntoView({ behavior: 'smooth' });
             };
 
-            // 4. Entrance Intersection Observer
+            // 4. Observer
             const obs = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
+                entries.forEach(e => { 
+                    if(e.isIntersecting) { 
+                        e.target.style.opacity = '1'; 
+                        e.target.style.transform = 'translateY(0)'; 
+                    } 
                 });
-            }, { threshold: 0.2 });
+            }, { threshold: 0.1 });
             document.querySelectorAll('.silhouette').forEach(s => obs.observe(s));
 
             // 5. Payment Details
@@ -407,22 +475,28 @@
             // 6. RSVP to Filebase
             const form = document.getElementById('rsvp-form');
             const stat = document.getElementById('status');
+            const submitBtn = document.getElementById('submit-btn');
 
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                stat.style.display = 'block'; stat.innerText = "SAVING RSVP...";
+                submitBtn.disabled = true;
+                stat.style.display = 'block'; 
+                stat.innerText = "SENDING RSVP...";
+                stat.style.borderColor = "rgba(0,0,0,0.1)";
+                stat.style.color = "var(--ink)";
                 
                 const data = {
                     guest: guestName,
                     attending: form.querySelector('input[name="att"]:checked').value,
                     dietary: document.getElementById('r-diet').value,
-                    accommodation: document.getElementById('r-acc').value,
+                    accommodation_needed: form.querySelector('input[name="acc-needed"]:checked').value,
+                    accommodation_names: document.getElementById('r-acc-names').value,
                     submittedAt: new Date().toISOString()
                 };
 
                 const params = {
                     Bucket: 'skyhealth',
-                    Key: `wedding-rsvps/${guestName.replace(/ /g, '_')}.json`,
+                    Key: `wedding-rsvps/${guestName.replace(/[^a-z0-9]/gi, '_')}.json`,
                     Body: JSON.stringify(data),
                     ContentType: 'application/json',
                     ACL: 'public-read'
@@ -430,13 +504,17 @@
 
                 try {
                     await s3.putObject(params).promise();
-                    stat.innerText = "THANK YOU! WE'VE RECEIVED YOUR RSVP.";
+                    stat.innerText = "THANK YOU! WE HAVE RECEIVED YOUR RSVP.";
+                    stat.style.borderColor = "var(--leaf)";
                     stat.style.color = "var(--leaf)";
-                    form.reset();
+                    form.style.opacity = "0.3";
+                    form.style.pointerEvents = "none";
                 } catch (err) {
                     console.error(err);
-                    stat.innerText = "ERROR SAVING. PLEASE TRY AGAIN.";
+                    stat.innerText = "COULD NOT SAVE. PLEASE TRY AGAIN.";
+                    stat.style.borderColor = "var(--red)";
                     stat.style.color = "var(--red)";
+                    submitBtn.disabled = false;
                 }
             });
         });
