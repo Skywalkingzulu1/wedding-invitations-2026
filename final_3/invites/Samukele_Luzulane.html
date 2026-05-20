@@ -41,7 +41,7 @@
             position: fixed; top: 2rem; left: 50%; transform: translateX(-50%);
             z-index: 3000; background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px); padding: 0.7rem 1.5rem;
-            border-radius: 50px; border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 50px; border: 1px solid rgba(197, 160, 89, 0.2);
             box-shadow: 0 5px 20px rgba(0,0,0,0.03);
             opacity: 0; visibility: hidden; transition: opacity 1s, visibility 1s;
         }
@@ -181,7 +181,7 @@
 
         .payment-box { text-align: left; display: inline-block; padding: 3rem; background: var(--sand); margin-top: 2rem; width: 100%; max-width: 500px; }
         .payment-row { margin-bottom: 1.5rem; }
-        .payment-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.5; display: block; }
+        .payment-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.5; display: block; margin-bottom: 0.2rem; }
         .payment-value { font-family: var(--serif); font-size: 1.3rem; }
 
         /* Animations */
@@ -244,7 +244,7 @@
         <section class="page">
             <div class="page-content">
                 <div class="title-xs">Personal Invitation</div>
-                <h2 class="display-md">Welcome, <span id="guest-name-welcome">Guest</span></h2>
+                <h2 class="display-md">Welcome, <span id="guest-name-welcome">Samukele Luzulane</span></h2>
                 <div class="ornament"></div>
                 <p class="body-text italic" style="max-width: 500px; margin: 0 auto;">
                     We are so excited to have you witness this beautiful beginning. Your presence means the world to us.
@@ -356,8 +356,6 @@
         const s3 = new AWS.S3(FILEBASE_CONFIG);
 
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('guest-name-welcome').innerText = guestName;
-
             // 1. Envelope
             const openBtn = document.getElementById('open-btn');
             const overlay = document.getElementById('envelope-overlay');
@@ -388,9 +386,14 @@
                 if (visible[idx]) visible[idx].scrollIntoView({ behavior: 'smooth' });
             };
 
-            // 4. Observer
+            // 4. Entrance Intersection Observer
             const obs = new IntersectionObserver((entries) => {
-                entries.forEach(e => { if(e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; } });
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
             }, { threshold: 0.2 });
             document.querySelectorAll('.silhouette').forEach(s => obs.observe(s));
 
