@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andile & Keabetswe | The Invitation</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Tenor+Sans&family=Cormorant+Infant:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --gold: #c5a059;
+            --paper: #ffffff;
+            --sand: #f8f7f5;
+            --leaf: #7D8E7E;
+            --red: #d13d3d;
+            
+            --serif: "Cormorant Infant", serif;
+            --display: "Playfair Display", serif;
+            --label: "Tenor Sans", sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: var(--label);
+            line-height: 1.6;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body.is-unlocked { overflow: initial; }
+
+        /* Navigation */
+        .floating-nav {
+            position: fixed; top: 2rem; left: 50%; transform: translateX(-50%);
+            z-index: 3000; background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px); padding: 0.7rem 1.5rem;
+            border-radius: 50px; border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            opacity: 0; visibility: hidden; transition: opacity 1s, visibility 1s;
+        }
+
+        .envelope-overlay.is-hidden + .floating-nav { opacity: 1; visibility: visible; }
+
+        .nav-links { display: flex; gap: 1rem; align-items: center; }
+        .nav-btn {
+            background: none; border: none; color: var(--ink);
+            font-family: var(--label); font-size: 0.55rem;
+            text-transform: uppercase; letter-spacing: 0.2em;
+            cursor: pointer; transition: color 0.3s; padding: 0.4rem;
+        }
+        .nav-btn:hover { color: var(--gold); }
+
+        /* Slider */
+        .slider-container {
+            height: 100vh; overflow-y: scroll;
+            scroll-snap-type: y mandatory; scroll-behavior: smooth;
+        }
+
+        .page {
+            height: 100vh; width: 100%; scroll-snap-align: start;
+            position: relative; display: flex; align-items: center;
+            justify-content: center; overflow: hidden; padding: 2rem;
+        }
+
+        .page-content { position: relative; z-index: 20; max-width: 800px; width: 100%; text-align: center; }
+
+        /* Visual Elements */
+        .abstract-blur {
+            position: absolute; z-index: 2; filter: blur(80px);
+            opacity: 0.15; pointer-events: none; border-radius: 50%;
+        }
+        .b1 { top: 10%; left: 10%; width: 400px; height: 400px; background: var(--gold); }
+        .b2 { bottom: 10%; right: 10%; width: 500px; height: 500px; background: var(--leaf); }
+
+        .silhouette {
+            position: absolute; bottom: 0; z-index: 2; pointer-events: none;
+            transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1), opacity 2s;
+            opacity: 0; transform: translateY(30px);
+        }
+        .bride { right: 5%; width: 250px; color: var(--gold); }
+        .groom { left: 5%; width: 230px; color: var(--leaf); }
+
+        /* Envelope */
+        .envelope-overlay {
+            position: fixed; inset: 0; background-color: #fdfdfd;
+            z-index: 2000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+        .envelope-overlay.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        .envelope-wrapper {
+            position: relative; width: 320px; height: 220px;
+            cursor: pointer; perspective: 1000px;
+            animation: floating 4s infinite ease-in-out;
+        }
+        .envelope {
+            position: relative; width: 100%; height: 100%;
+            background-color: #f4f1ed; box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+        .envelope .flap {
+            position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-left: 160px solid transparent; border-right: 160px solid transparent;
+            border-top: 110px solid #e8e3dd; transform-origin: top;
+            transition: transform 0.6s ease-in-out; z-index: 4;
+        }
+        .envelope .front {
+            position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-left: 160px solid transparent; border-right: 160px solid transparent;
+            border-bottom: 110px solid #f4f1ed; z-index: 3;
+        }
+        .envelope::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-left: 160px solid #ede9e2; border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent; z-index: 2;
+        }
+        .envelope::after {
+            content: ""; position: absolute; top: 0; right: 0; width: 0; height: 0;
+            border-right: 160px solid #ede9e2; border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent; z-index: 2;
+        }
+        .letter {
+            position: absolute; bottom: 0; left: 5%; width: 90%; height: 95%;
+            background-color: var(--white); transition: transform 0.8s ease-in-out;
+            z-index: 1; display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem;
+        }
+        .letter-inner {
+            border: 1px solid rgba(197, 160, 89, 0.15); width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .heart-seal {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 50px; height: 50px; background-color: var(--red);
+            border: none; border-radius: 50%; cursor: pointer; z-index: 5;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 5px 15px rgba(209, 61, 61, 0.3);
+            animation: sealPulse 2s infinite ease-in-out;
+        }
+        .heart-seal svg { width: 24px; height: 24px; fill: white; color: white; }
+
+        .envelope-wrapper.is-open .flap { transform: rotateX(180deg); z-index: 0; }
+        .envelope-wrapper.is-open .letter { transform: translateY(-120px); z-index: 5; }
+        .envelope-wrapper.is-open .heart-seal { opacity: 0; pointer-events: none; }
+
+        /* Content Modules */
+        .title-xs { font-family: var(--label); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5em; color: var(--gold); margin-bottom: 2rem; }
+        .display-lg { font-family: var(--display); font-size: clamp(3rem, 8vw, 6rem); font-weight: 400; margin-bottom: 1rem; line-height: 1; }
+        .display-md { font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 2rem; }
+        .body-text { font-family: var(--serif); font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.6; color: rgba(0,0,0,0.8); }
+        .italic { font-style: italic; }
+        
+        .ornament { width: 40px; height: 1px; background: var(--gold); margin: 2rem auto; opacity: 0.4; }
+
+        .btn-elegant {
+            display: inline-block; padding: 1.2rem 3.5rem; background: var(--ink);
+            color: white; text-decoration: none; font-family: var(--label);
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3em;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); margin-top: 3rem;
+            border: 1px solid var(--ink); cursor: pointer;
+        }
+        .btn-elegant:hover { background: transparent; color: var(--ink); }
+
+        /* RSVP Form */
+        .rsvp-card { background: white; padding: 4rem; max-width: 600px; margin: 0 auto; border: 1px solid rgba(0,0,0,0.03); }
+        .input-group { margin-bottom: 2.5rem; }
+        .input-elegant {
+            width: 100%; border: none; border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 1rem 0; font-family: var(--serif); font-size: 1.4rem;
+            outline: none; background: transparent; text-align: center;
+            transition: border-color 0.3s;
+        }
+        .input-elegant:focus { border-bottom-color: var(--gold); }
+
+        .payment-box { text-align: left; display: inline-block; padding: 3rem; background: var(--sand); margin-top: 2rem; width: 100%; max-width: 500px; }
+        .payment-row { margin-bottom: 1.5rem; }
+        .payment-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.5; display: block; }
+        .payment-value { font-family: var(--serif); font-size: 1.3rem; }
+
+        /* Animations */
+        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes sealPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.08); } }
+
+        @media (max-width: 768px) {
+            .page { padding: 4rem 1.5rem; }
+            .bride, .groom { display: none; }
+            .nav-links { gap: 0.5rem; }
+            .nav-btn { font-size: 0.45rem; padding: 0.2rem; }
+        }
+    </style>
+</head>
+<body class="is-locked">
+
+    <div id="envelope-overlay" class="envelope-overlay">
+        <div class="envelope-wrapper" id="envelope-wrapper">
+            <div class="envelope">
+                <div class="flap"></div>
+                <div class="front"></div>
+                <div class="letter">
+                    <div class="letter-inner">
+                        <div style="font-family: var(--display); font-size: 2.5rem; color: var(--gold);" id="days-count">--</div>
+                        <div style="font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.5;">Days to the Big Day</div>
+                        <div class="ornament" style="margin: 0.5rem 0;"></div>
+                        <div style="font-size: 0.8rem; letter-spacing: 0.1em; opacity: 0.7;">Andile & Keabetswe</div>
+                    </div>
+                </div>
+            </div>
+            <button id="open-btn" class="heart-seal" title="Open Invitation">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.05 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.05 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.05 0 0 0 0-7.78z"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <nav class="floating-nav">
+        <div class="nav-links">
+            <button class="nav-btn" onclick="scrollToPage(0)">Home</button>
+            <button class="nav-btn" onclick="scrollToPage(1)">Welcome</button>
+            <button class="nav-btn" onclick="scrollToPage(2)">Story</button>
+            <button class="nav-btn" onclick="scrollToPage(3)">Venue</button>
+            <button class="nav-btn" onclick="scrollToPage(6)">RSVP</button>
+        </div>
+    </nav>
+
+    <main id="main-content" class="slider-container">
+        <!-- 1. Hero Page -->
+        <section class="page">
+            <div class="page-content">
+                <div class="title-xs">Save the Date</div>
+                <h1 class="display-lg">21 June 2026</h1>
+                <div style="font-size: 1.1rem; letter-spacing: 0.2em; opacity: 0.4; margin: 2rem 0;">SUNDAY • 09:30 AM</div>
+                <div style="padding: 0.7rem 1.5rem; border: 1px solid rgba(0,0,0,0.05); border-radius: 50px; display: inline-block; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;">Bell and Blossom, Pretoria</div>
+            </div>
+            <div class="abstract-blur b1"></div>
+        </section>
+
+        <!-- 2. Personal Welcome Page -->
+        <section class="page">
+            <div class="page-content">
+                <div class="title-xs">Personal Invitation</div>
+                <h2 class="display-md">Welcome, <span id="guest-name-welcome">Guest</span></h2>
+                <div class="ornament"></div>
+                <p class="body-text italic" style="max-width: 500px; margin: 0 auto;">
+                    We are so excited to have you witness this beautiful beginning. Your presence means the world to us.
+                </p>
+            </div>
+            <div class="abstract-blur b2" style="background: var(--gold); opacity: 0.1;"></div>
+        </section>
+
+        <!-- 3. Story Page -->
+        <section class="page">
+            <div class="silhouette bride">
+                <svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M100,50 C80,50 70,70 70,90 C70,110 80,130 100,130 C120,130 130,110 130,90 C130,70 120,50 100,50 Z M100,130 C60,130 40,180 40,250 C40,320 60,380 100,380 C140,380 160,320 160,250 C160,180 140,130 100,130 Z"/></svg>
+            </div>
+            <div class="page-content container-narrow">
+                <div class="title-xs">Our Journey</div>
+                <h2 class="display-md">The Village</h2>
+                <div class="ornament"></div>
+                <p class="body-text">
+                    "They say it takes a village, and you are ours. We are honoured to be surrounded by the people who have shaped our lives. Your love is our foundation."
+                </p>
+            </div>
+        </section>
+
+        <!-- 4. Venue Page -->
+        <section class="page">
+            <div class="silhouette groom">
+                <svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M100,40 C85,40 75,55 75,70 C75,85 85,100 100,100 C115,100 125,85 125,70 C125,55 115,40 100,40 Z M100,100 C70,100 60,140 60,200 C60,260 70,360 100,360 C130,360 140,260 140,200 C140,140 130,100 100,100 Z"/></svg>
+            </div>
+            <div class="page-content">
+                <div class="title-xs">The Location</div>
+                <h2 class="display-md">Venue & Stay</h2>
+                <p style="margin-bottom: 2rem; font-size: 0.9rem; letter-spacing: 0.1em;">721 KLIPPAN STREET, PRETORIA</p>
+                <p class="body-text" style="max-width: 600px; margin: 0 auto;">
+                    Discounted luxury accommodation is available on-site for the night of the wedding. Check-out is strictly at 08:00 AM.
+                </p>
+                <button class="btn-elegant" onclick="showPayment()">View Booking Info</button>
+            </div>
+        </section>
+
+        <!-- 5. Gift Page -->
+        <section class="page">
+            <div class="page-content">
+                <div class="title-xs">With Love</div>
+                <h2 class="display-md">Gifting</h2>
+                <p class="body-text" style="max-width: 600px; margin: 0 auto;">
+                    We will only be accepting monetary gifts. In place of a gift table, we will have a memorial table to honour those witnessing our day from heaven.
+                </p>
+                <button class="btn-elegant" onclick="showPayment()">Payment Portal</button>
+            </div>
+        </section>
+
+        <!-- 6. Payment Page -->
+        <section id="payment-page" class="page" style="display:none;">
+            <div class="page-content">
+                <div class="title-xs">Transaction Details</div>
+                <h2 class="display-md">Payment Info</h2>
+                <div class="payment-box">
+                    <div class="payment-row"><span class="payment-label">Bank</span><span class="payment-value">FNB (First National Bank)</span></div>
+                    <div class="payment-row"><span class="payment-label">Account Holder</span><span class="payment-value">Andile Mchunu</span></div>
+                    <div class="payment-row"><span class="payment-label">Account Number</span><span class="payment-value">62849103857</span></div>
+                    <div class="payment-row"><span class="payment-label">Type</span><span class="payment-value">Smart Savings</span></div>
+                    <div class="payment-row"><span class="payment-label">Branch</span><span class="payment-value">250655</span></div>
+                </div>
+                <br>
+                <button class="btn-elegant" style="background:none; color:var(--ink);" onclick="scrollToPage(6)">Proceed to RSVP</button>
+            </div>
+        </section>
+
+        <!-- 7. RSVP Page -->
+        <section class="page">
+            <div class="page-content">
+                <div class="title-xs">RSVP by 24 May 2026</div>
+                <h2 class="display-md">Are you joining us?</h2>
+                <p class="body-text italic" style="margin-bottom: 3rem; font-size: 1.1rem; max-width: 500px; margin: 0 auto 3rem;">
+                    "We understand the RSVP comes with a shortened timeline and ask that you cooperate with us on this venture."
+                </p>
+                <div class="rsvp-card">
+                    <form id="rsvp-form">
+                        <div class="input-group"><input type="text" class="input-elegant" id="r-names" value="Azizi Mchunu" readonly></div>
+                        <div style="display:flex; gap:3rem; justify-content:center; margin-bottom: 3rem;">
+                            <label style="cursor:pointer; font-size:0.7rem; letter-spacing:0.1em; display:flex; align-items:center; gap:0.5rem;"><input type="radio" name="att" value="yes" required> YES, I'LL BE THERE</label>
+                            <label style="cursor:pointer; font-size:0.7rem; letter-spacing:0.1em; display:flex; align-items:center; gap:0.5rem;"><input type="radio" name="att" value="no"> SADLY, NO</label>
+                        </div>
+                        <div class="input-group"><input type="text" class="input-elegant" id="r-diet" placeholder="Any Dietary Requirements?"></div>
+                        <div class="input-group"><input type="text" class="input-elegant" id="r-acc" placeholder="Accommodation for (names)"></div>
+                        <button type="submit" class="btn-elegant" style="width:100%;">Confirm Attendance</button>
+                    </form>
+                    <div id="status" style="margin-top:2rem; font-size:0.7rem; letter-spacing:0.1em; display:none;"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- S3 Browser Client -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1500.0.min.js"></script>
+
+    <script>
+        const guestName = "Azizi Mchunu";
+        
+        // Filebase Credentials
+        const FILEBASE_CONFIG = {
+            accessKeyId: '783194B050E16228919E',
+            secretAccessKey: 'JMexyAlQdiuTtUBNixISyLQdAziQIrgV1u8Gy1vy',
+            endpoint: 'https://s3.filebase.com',
+            region: 'us-east-1',
+            s3ForcePathStyle: true
+        };
+
+        const s3 = new AWS.S3(FILEBASE_CONFIG);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('guest-name-welcome').innerText = guestName;
+
+            // 1. Envelope
+            const openBtn = document.getElementById('open-btn');
+            const overlay = document.getElementById('envelope-overlay');
+            const wrapper = document.getElementById('envelope-wrapper');
+
+            openBtn.addEventListener('click', () => {
+                wrapper.classList.add('is-open');
+                setTimeout(() => {
+                    overlay.classList.add('is-hidden');
+                    document.body.classList.add('is-unlocked');
+                    setTimeout(() => overlay.style.display = 'none', 1000);
+                }, 1500);
+            });
+
+            // 2. Countdown
+            const target = new Date('June 21, 2026 09:30:00').getTime();
+            const tick = () => {
+                const now = new Date().getTime();
+                const d = Math.floor((target - now) / 86400000);
+                document.getElementById('days-count').innerText = d > 0 ? d : 0;
+            };
+            tick();
+
+            // 3. Navigation
+            window.scrollToPage = (idx) => {
+                const pages = document.querySelectorAll('.page');
+                const visible = Array.from(pages).filter(p => p.style.display !== 'none');
+                if (visible[idx]) visible[idx].scrollIntoView({ behavior: 'smooth' });
+            };
+
+            // 4. Observer
+            const obs = new IntersectionObserver((es) => {
+                entries.forEach(e => { if(e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; } });
+            }, { threshold: 0.2 });
+            document.querySelectorAll('.silhouette').forEach(s => obs.observe(s));
+
+            // 5. Payment Details
+            window.showPayment = () => {
+                const p = document.getElementById('payment-page');
+                p.style.display = 'flex';
+                p.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            // 6. RSVP to Filebase
+            const form = document.getElementById('rsvp-form');
+            const stat = document.getElementById('status');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                stat.style.display = 'block'; stat.innerText = "SAVING RSVP...";
+                
+                const data = {
+                    guest: guestName,
+                    attending: form.querySelector('input[name="att"]:checked').value,
+                    dietary: document.getElementById('r-diet').value,
+                    accommodation: document.getElementById('r-acc').value,
+                    submittedAt: new Date().toISOString()
+                };
+
+                const params = {
+                    Bucket: 'skyhealth',
+                    Key: `wedding-rsvps/${guestName.replace(/ /g, '_')}.json`,
+                    Body: JSON.stringify(data),
+                    ContentType: 'application/json',
+                    ACL: 'public-read'
+                };
+
+                try {
+                    await s3.putObject(params).promise();
+                    stat.innerText = "THANK YOU! WE'VE RECEIVED YOUR RSVP.";
+                    stat.style.color = "var(--leaf)";
+                    form.reset();
+                } catch (err) {
+                    console.error(err);
+                    stat.innerText = "ERROR SAVING. PLEASE TRY AGAIN.";
+                    stat.style.color = "var(--red)";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
