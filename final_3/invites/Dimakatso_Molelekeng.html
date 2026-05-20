@@ -389,7 +389,7 @@
             };
 
             // 4. Observer
-            const obs = new IntersectionObserver((es) => {
+            const obs = new IntersectionObserver((entries) => {
                 entries.forEach(e => { if(e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; } });
             }, { threshold: 0.2 });
             document.querySelectorAll('.silhouette').forEach(s => obs.observe(s));
