@@ -271,7 +271,7 @@
         <section class="page">
             <div class="page-content">
                 <div class="title-xs">Personal Invitation</div>
-                <h2 class="display-md">Welcome, <span id="guest-name-welcome">Thero Molelekeng</span></h2>
+                <h2 class="display-md">Welcome, <span id="guest-name-welcome">{{GUEST_NAME}}</span></h2>
                 <div class="ornament"></div>
                 <p class="body-text italic" style="max-width: 500px; margin: 0 auto;">
                     We are so excited to have you witness this beautiful beginning. Your presence means the world to us.
@@ -353,7 +353,7 @@
                     <form id="rsvp-form">
                         <div class="input-group">
                             <span class="payment-label" style="text-align: center; margin-bottom: 0.5rem;">Guest Name(s)</span>
-                            <input type="text" class="input-elegant" id="r-names" value="Thero Molelekeng" readonly>
+                            <input type="text" class="input-elegant" id="r-names" value="{{GUEST_NAME}}" readonly>
                         </div>
                         
                         <div class="radio-set">
@@ -391,7 +391,7 @@
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1500.0.min.js"></script>
 
     <script>
-        const guestName = "Thero Molelekeng";
+        const guestName = "{{GUEST_NAME}}";
         
         // Filebase Config
         const FILEBASE_CONFIG = {
